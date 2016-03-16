@@ -1,0 +1,20 @@
+{
+  "name": "patronus_group_project",
+  "version": "1.0.0",
+  "description": "Week 4 Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/app.js"
+  },
+  "author": "4 Real",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "bootstrap": "^3.3.6",
+    "express": "^4.13.4",
+    "jquery": "^2.2.1",
+    "pg": "^4.5.1",
+    "purecss": "^0.6.0"
+  }
+}
