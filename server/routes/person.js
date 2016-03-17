@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var pg = require('pg');
 var connectionString;
 
 if (process.env.DATABASE_URL) {
@@ -28,6 +28,7 @@ router.post('/', function (req, res) {
 
       query.on('row', function(row){
         result.push(row);
+        console.log(result);
         });
       query.on('end', function(){
         done();
@@ -57,6 +58,7 @@ router.get('/', function(res, req){
       });
       query.on('end', function(){
         done();
+        console.log(result);
         res.send(result);
       });
       query.on('error', function(error){

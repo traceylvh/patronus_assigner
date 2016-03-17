@@ -4,6 +4,8 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var person = require('./routes/person.js');
 var patronus = require('./routes/patronus.js');
+var pg = require('pg');
+var port = process.env.PORT || 3000;
 
 var connectionString;
 
@@ -24,11 +26,9 @@ pg.connect (connectionString, function (err, client, done) {
   );
     var personQuery = client.query('CREATE TABLE IF NOT EXISTS person (' +
                             'id SERIAL PRIMARY KEY,' +
-                            'first_name varchar(80) NOT NULL' +
-                            'last_name varchar(80)' +
-                            'CONSTRAINT fk_patronus' +
-                              'FOREIGN KEY (patronus_id)' +
-                              'REFERENCES patronus(patronus_id));'
+                            'first_name varchar(80) NOT NULL,' +
+                            'last_name varchar(80) NOT NULL,' +
+                            'patronus_id int REFERENCES patronus.patronus_id);'
     );
 
     patronusQuery.on ('end', function () {
@@ -36,8 +36,8 @@ pg.connect (connectionString, function (err, client, done) {
       done();
     });
 
-    patronusQuery.on ('error', function () {
-      console.log('Error patronus creating schema!');
+    patronusQuery.on ('error', function (err) {
+      console.log('Error patronus creating schema!', err);
       done();
     });
 
@@ -46,14 +46,15 @@ pg.connect (connectionString, function (err, client, done) {
       done();
     });
 
-    personQuery.on ('error', function () {
-      console.log('Error creating person schema!');
+    personQuery.on ('error', function (err) {
+      console.log('Error creating person schema!', err);
       done();
     });
   }
 });
 
-var port = process.env.PORT || 3000;
+// });
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -68,5 +69,5 @@ app.get('/*', function(req, res){
 });
 
 app.listen(port, function(){
-  console.log('Listening on port: ' port);
+  console.log('Listening on port: ', port);
 });
