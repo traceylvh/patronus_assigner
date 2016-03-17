@@ -64,7 +64,7 @@ router.get('/', function(res, req){
       query.on('error', function(error){
         console.log('Error running query: ', error);
         done();
-        res.staus(500).send(error);
+        res.status(500).send(error);
       });
     }
   });
